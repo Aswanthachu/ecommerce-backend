@@ -1,0 +1,26 @@
+{
+  "entryFile": "index.ts",
+  "controllerPathGlobs": [
+    "./src/controller/authController.ts",
+    "./src/controller/userController.ts",
+    "./src/controller/developerController.ts"
+  ],
+  "spec": {
+    "outputDirectory": "./",
+    "entryFile": "index.ts",
+    "noImplicitAdditionalProperties": "ignore",
+    "securityDefinitions": {
+      "jwt": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header",
+        "description": "JWT Token"
+      }
+    }
+  },
+  "routes": {
+    "authenticationModule": "./src/helper/utils/auth.ts",
+    "routesDir": "routes",
+    "middleware": "express"
+  }
+}

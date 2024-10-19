@@ -1,0 +1,23 @@
+# Node.js
+node_modules/
+uploads/
+
+# TypeScript
+*.tsbuildinfo
+
+# Visual Studio Code
+.vscode/
+
+# OS generated files
+.DS_Store
+
+# Build output
+build/
+
+# Environment variables
+*.env
+
+#logs
+logs/*
+
+/db/

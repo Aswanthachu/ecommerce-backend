@@ -1,0 +1,217 @@
+{
+	"basePath": "/",
+	"consumes": [
+		"application/json"
+	],
+	"definitions": {
+		"loginDataType": {
+			"properties": {
+				"password": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"password",
+				"email"
+			],
+			"type": "object"
+		},
+		"userCreateType": {
+			"properties": {
+				"password": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"password",
+				"email",
+				"name"
+			],
+			"type": "object"
+		}
+	},
+	"info": {
+		"title": "disrt_live",
+		"version": "1.0.0",
+		"description": "By Immensa",
+		"license": {
+			"name": "UNLICENSED"
+		},
+		"contact": {
+			"name": "Immensa"
+		}
+	},
+	"paths": {
+		"/api/auth": {
+			"post": {
+				"operationId": "Login",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"error": {
+									"type": "string"
+								},
+								"token": {
+									"type": "string"
+								},
+								"data": {
+									"additionalProperties": true
+								}
+							},
+							"type": "object"
+						},
+						"examples": {
+							"application/json": {
+								"email": "example@gmail.com",
+								"password": "Example@123"
+							}
+						}
+					}
+				},
+				"consumes": [
+					"application/json"
+				],
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "loginData",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/loginDataType"
+						}
+					}
+				]
+			}
+		},
+		"/api/user": {
+			"post": {
+				"operationId": "CreateUser",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"error": {
+									"type": "string"
+								},
+								"data": {
+									"additionalProperties": true
+								}
+							},
+							"type": "object"
+						},
+						"examples": {
+							"application/json": {
+								"email": "example@gmail.com",
+								"password": "Example@123",
+								"name": "John Doe"
+							}
+						}
+					}
+				},
+				"consumes": [
+					"application/json"
+				],
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "userData",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/userCreateType"
+						}
+					}
+				]
+			}
+		},
+		"/api/developer/create-developer": {
+			"post": {
+				"operationId": "CreateDeveloper",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"error": {
+									"type": "string"
+								},
+								"data": {
+									"additionalProperties": true
+								}
+							},
+							"type": "object"
+						},
+						"examples": {
+							"application/json": {
+								"name": "Developer 1",
+								"email": "example@gmail.com",
+								"password": "Example@123",
+								"phone": "8589949567",
+								"avatar": "https://i.pravatar.cc/300",
+								"logo": "https://i.pravatar.cc/800",
+								"userType": "developer"
+							}
+						}
+					}
+				},
+				"consumes": [
+					"application/json"
+				],
+				"tags": [
+					"Developer"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "formData",
+						"required": true,
+						"schema": {
+							"type": "object"
+						}
+					}
+				]
+			}
+		}
+	},
+	"produces": [
+		"application/json"
+	],
+	"swagger": "2.0",
+	"securityDefinitions": {
+		"jwt": {
+			"type": "apiKey",
+			"name": "Authorization",
+			"in": "header",
+			"description": "JWT Token"
+		}
+	}
+}
