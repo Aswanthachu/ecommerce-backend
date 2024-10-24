@@ -19,6 +19,30 @@
 			],
 			"type": "object"
 		},
+		"signupDataType": {
+			"properties": {
+				"role": {
+					"type": "string",
+					"enum": [
+						"buyer",
+						"seller"
+					],
+					"x-nullable": false
+				},
+				"password": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"role",
+				"password",
+				"email"
+			],
+			"type": "object"
+		},
 		"userCreateType": {
 			"properties": {
 				"password": {
@@ -40,14 +64,14 @@
 		}
 	},
 	"info": {
-		"title": "disrt_live",
+		"title": "ecommerce",
 		"version": "1.0.0",
-		"description": "By Immensa",
+		"description": "By Aswanth P N K",
 		"license": {
 			"name": "UNLICENSED"
 		},
 		"contact": {
-			"name": "Immensa"
+			"name": "Aswanth P N K"
 		}
 	},
 	"paths": {
@@ -96,6 +120,56 @@
 						"required": true,
 						"schema": {
 							"$ref": "#/definitions/loginDataType"
+						}
+					}
+				]
+			}
+		},
+		"/api/auth/signup": {
+			"post": {
+				"operationId": "Signup",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"properties": {
+								"error": {
+									"type": "string"
+								},
+								"token": {
+									"type": "string"
+								},
+								"data": {
+									"additionalProperties": true
+								}
+							},
+							"type": "object"
+						},
+						"examples": {
+							"application/json": {
+								"email": "example@gmail.com",
+								"password": "Example@123"
+							}
+						}
+					}
+				},
+				"consumes": [
+					"application/json"
+				],
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "signupData",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/signupDataType"
 						}
 					}
 				]

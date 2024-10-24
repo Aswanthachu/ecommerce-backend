@@ -52,6 +52,34 @@ class AuthController extends Controller {
       };
     }
   }
+
+  @Post("signup")
+  @Example({
+    email: "example@gmail.com",
+    password: "Example@123",
+  })
+  @Middlewares(validate(validationSchema.signupPostSchema as JSONSchemaType<any>))
+  public async signup(
+    @Body() signupData: validationSchema.signupDataType
+  ): Promise<{ data?: any; token?: string; error?: string }> {
+    try {
+      console.log(signupData);
+      const [user, token, error, httpStatus] = await authRepo.signup(signupData);      
+
+      if (error) {
+        this.setStatus(httpStatus);
+        return { error: error.message };
+      }
+      this.setStatus(httpStatus);
+      return { data: user || [], token };
+    } catch (error) {
+      this.setStatus(HttpStatus.HTTP_INTERNAL_SERVER_ERROR);
+      logError(error);
+      return {
+        error: error as string,
+      };
+    }
+  }
 }
 
 export { AuthController };

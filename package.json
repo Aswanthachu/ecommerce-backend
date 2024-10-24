@@ -1,7 +1,7 @@
 {
-    "name": "disrt_live",
+    "name": "ecommerce",
     "version": "1.0.0",
-    "description": "By Immensa",
+    "description": "By Aswanth P N K",
     "main": "index.js",
     "scripts": {
         "build": "tsc",
@@ -12,12 +12,12 @@
         "tsoa:generate": "npm run tsoa:spec && npm run tsoa:routes"
     },
     "keywords": [
-        "Immensa"
+        "Aswanth"
     ],
-    "author": "Immensa",
+    "author": "Aswanth P N K",
     "license": "UNLICENSED",
     "private": true,
-    "homepage": "https://www.immensa.io/",
+    "homepage": "",
     "devDependencies": {
         "@types/adm-zip": "^0.5.5",
         "@types/cors": "^2.8.17",
