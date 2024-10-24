@@ -26,12 +26,12 @@ const authRepo: IAuthRepo = new AuthRepo();
 @Route("api/auth")
 @Tags("Auth")
 class AuthController extends Controller {
-  @Post()
+  @Post("login")
   @Example({
     email: "example@gmail.com",
     password: "Example@123",
   })
-  @Middlewares(validate(validationSchema.authPostSchema as JSONSchemaType<any>))
+  
   public async login(
     @Body() loginData: validationSchema.loginDataType
   ): Promise<{ data?: any; token?: string; error?: string }> {
@@ -57,14 +57,19 @@ class AuthController extends Controller {
   @Example({
     email: "example@gmail.com",
     password: "Example@123",
+    role: "seller",
+    name: "John Doe",
   })
-  @Middlewares(validate(validationSchema.signupPostSchema as JSONSchemaType<any>))
+  @Middlewares(
+    validate(validationSchema.signupPostSchema as JSONSchemaType<any>)
+  )
   public async signup(
     @Body() signupData: validationSchema.signupDataType
   ): Promise<{ data?: any; token?: string; error?: string }> {
     try {
-      console.log(signupData);
-      const [user, token, error, httpStatus] = await authRepo.signup(signupData);      
+      const [user, token, error, httpStatus] = await authRepo.signup(
+        signupData
+      );
 
       if (error) {
         this.setStatus(httpStatus);

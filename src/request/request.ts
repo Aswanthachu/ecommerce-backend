@@ -9,6 +9,7 @@ export type signupDataType = {
   email: string;
   password: string;
   role: "buyer" | "seller";
+  name: string;
 };
 
 const authPostSchema: JSONSchemaType<loginDataType> = {
@@ -27,8 +28,9 @@ const signupPostSchema: JSONSchemaType<signupDataType> = {
     email: { type: "string" },
     password: { type: "string" },
     role: { type: "string", enum: ["buyer", "seller"] },
+    name: { type: "string" },
   },
-  required: ["email", "password"],
+  required: ["email", "password", "name", "role"],
   additionalProperties: false,
 };
 
@@ -226,7 +228,6 @@ const roleDeleteSchema: JSONSchemaType<{ id: string }> = {
 export {
   authPostSchema,
   signupPostSchema,
-
   userPostSchema,
   developerPostSchema,
   userGetSchema,

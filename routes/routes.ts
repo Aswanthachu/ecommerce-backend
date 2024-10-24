@@ -1,7 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { TsoaRoute, fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
+import type { TsoaRoute } from '@tsoa/runtime';
+import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { AuthController } from './../src/controller/authController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -25,7 +26,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "signupDataType": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"role":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["buyer"]},{"dataType":"enum","enums":["seller"]}],"required":true},"password":{"dataType":"string","required":true},"email":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"name":{"dataType":"string","required":true},"role":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["buyer"]},{"dataType":"enum","enums":["seller"]}],"required":true},"password":{"dataType":"string","required":true},"email":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "userCreateType": {
@@ -38,16 +39,23 @@ const templateService = new ExpressTemplateService(models, {"noImplicitAdditiona
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
+
+
+
 export function RegisterRoutes(app: Router) {
+
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.post('/api/auth',
+
+
+    
+        app.post('/api/auth/login',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
             ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.login)),
 
-            function AuthController_login(request: ExRequest, response: ExResponse, next: any) {
+            async function AuthController_login(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     loginData: {"in":"body","name":"loginData","required":true,"ref":"loginDataType"},
             };
@@ -60,7 +68,7 @@ export function RegisterRoutes(app: Router) {
 
                 const controller = new AuthController();
 
-              templateService.apiHandler({
+              await templateService.apiHandler({
                 methodName: 'login',
                 controller,
                 response,
@@ -77,7 +85,7 @@ export function RegisterRoutes(app: Router) {
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
             ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.signup)),
 
-            function AuthController_signup(request: ExRequest, response: ExResponse, next: any) {
+            async function AuthController_signup(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     signupData: {"in":"body","name":"signupData","required":true,"ref":"signupDataType"},
             };
@@ -90,7 +98,7 @@ export function RegisterRoutes(app: Router) {
 
                 const controller = new AuthController();
 
-              templateService.apiHandler({
+              await templateService.apiHandler({
                 methodName: 'signup',
                 controller,
                 response,
@@ -107,7 +115,7 @@ export function RegisterRoutes(app: Router) {
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.createUser)),
 
-            function UserController_createUser(request: ExRequest, response: ExResponse, next: any) {
+            async function UserController_createUser(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     userData: {"in":"body","name":"userData","required":true,"ref":"userCreateType"},
             };
@@ -120,7 +128,7 @@ export function RegisterRoutes(app: Router) {
 
                 const controller = new UserController();
 
-              templateService.apiHandler({
+              await templateService.apiHandler({
                 methodName: 'createUser',
                 controller,
                 response,
@@ -137,7 +145,7 @@ export function RegisterRoutes(app: Router) {
             ...(fetchMiddlewares<RequestHandler>(DeveloperController)),
             ...(fetchMiddlewares<RequestHandler>(DeveloperController.prototype.createDeveloper)),
 
-            function DeveloperController_createDeveloper(request: ExRequest, response: ExResponse, next: any) {
+            async function DeveloperController_createDeveloper(request: ExRequest, response: ExResponse, next: any) {
             const args: Record<string, TsoaRoute.ParameterSchema> = {
                     formData: {"in":"body","name":"formData","required":true,"dataType":"any"},
             };
@@ -150,7 +158,7 @@ export function RegisterRoutes(app: Router) {
 
                 const controller = new DeveloperController();
 
-              templateService.apiHandler({
+              await templateService.apiHandler({
                 methodName: 'createDeveloper',
                 controller,
                 response,

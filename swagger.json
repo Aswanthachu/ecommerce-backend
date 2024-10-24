@@ -21,6 +21,9 @@
 		},
 		"signupDataType": {
 			"properties": {
+				"name": {
+					"type": "string"
+				},
 				"role": {
 					"type": "string",
 					"enum": [
@@ -37,6 +40,7 @@
 				}
 			},
 			"required": [
+				"name",
 				"role",
 				"password",
 				"email"
@@ -75,7 +79,7 @@
 		}
 	},
 	"paths": {
-		"/api/auth": {
+		"/api/auth/login": {
 			"post": {
 				"operationId": "Login",
 				"produces": [
@@ -151,7 +155,9 @@
 						"examples": {
 							"application/json": {
 								"email": "example@gmail.com",
-								"password": "Example@123"
+								"password": "Example@123",
+								"role": "seller",
+								"name": "John Doe"
 							}
 						}
 					}

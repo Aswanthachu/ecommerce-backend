@@ -5,6 +5,10 @@ import IAuthRepo from "./types/authTypes";
 import { logError } from "../helper/utils/logError";
 import { signupDataType } from "../request/request";
 import { generateToken } from "../helper/utils/auth";
+import PrismaDatabase from "../helper/db/prismaDatabase";
+
+const prismaDatabase = new PrismaDatabase();
+const prisma = prismaDatabase.prisma;
 
 class AuthRepo implements IAuthRepo {
   async login(
@@ -20,8 +24,12 @@ class AuthRepo implements IAuthRepo {
           new Error("Email,Name or Password missing from request"),
           HttpStatus.HTTP_NO_CONTENT,
         ];
+      const users = await prisma.user.findMany();
+      console.log(users);
 
-      const existingUser = await UserModel.findOne({ "email.address":email });
+      const existingUser = await prisma.user.findUnique({
+        where: { email },
+      });
 
       if (!existingUser)
         return [
@@ -38,15 +46,15 @@ class AuthRepo implements IAuthRepo {
 
       if (validUser) {
         const userData = {
-          id: existingUser._id,
-          userType: existingUser.userType,
-          email: existingUser.email.address,
+          id: existingUser.id,
+          userType: existingUser.role,
+          email: existingUser.email,
           name: existingUser.name,
         };
 
         return [
           userData,
-          generateToken(email, existingUser._id, existingUser.userType),
+          generateToken(email, existingUser.id.toString(), existingUser.role),
           null,
           HttpStatus.HTTP_SUCCESS,
         ];
@@ -68,7 +76,7 @@ class AuthRepo implements IAuthRepo {
     loginData: signupDataType
   ): Promise<[any | null, string | undefined, Error | null, number]> {
     try {
-      const { email, password } = loginData;
+      const { email, password, role, name } = loginData;
 
       if (!email || !password)
         return [
@@ -78,32 +86,41 @@ class AuthRepo implements IAuthRepo {
           HttpStatus.HTTP_NO_CONTENT,
         ];
 
-      const existingUser = await UserModel.findOne({ "email.address":email });
+      const existingUser = await prisma.user.findUnique({
+        where: { email },
+      });
 
-      if (!existingUser)
+      const saltRounds = parseInt(process.env.SALT_ROUND as string, 10);
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+      if (existingUser)
         return [
           null,
           undefined,
-          new Error("User not exist"),
+          new Error("User already exist"),
           HttpStatus.HTTP_BAD_REQUEST,
         ];
 
-      const validUser = await bcrypt.compare(
-        password,
-        existingUser.hashedPassword
-      );
+      const newUser = await prisma.user.create({
+        data: {
+          email,
+          name,
+          hashedPassword,
+          role,
+        },
+      });
 
-      if (validUser) {
+      if (newUser) {
         const userData = {
-          id: existingUser._id,
-          userType: existingUser.userType,
-          email: existingUser.email.address,
-          name: existingUser.name,
+          id: newUser.id,
+          role: newUser.role,
+          email: newUser.email,
+          name: newUser.name,
         };
 
         return [
           userData,
-          generateToken(email, existingUser._id, existingUser.userType),
+          generateToken(email, newUser.id.toString(), role),
           null,
           HttpStatus.HTTP_SUCCESS,
         ];
